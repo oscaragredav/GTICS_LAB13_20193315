@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+          crossorigin="anonymous"
+  />
+  <script
+          src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"
+  ></script>
+
+  <title>BICICENTRO</title>
+</head>
+<body>
+<header class="container-fluid">
+  <img width="33%" height="30%" src="logo.jpeg" class="me-3" alt="50 px" />
+  <h1 class="display-4">BICICENTRO</h1>
+</header>
+
+<main>
+  <a class="btn btn-primary mt-4" href="trabajadores.html">Regresar a la lista de trabajadores</a>
+  <hr>
+  <h4>Detalles del Trabajador</h4>
+  <hr>
+  <table class="table table-sm" id="detalleTrabajador">
+  </table>
+
+  <hr>
+  <h4>Ventas</h4>
+  <hr>
+  <table class="table table-sm" id="detalleTrabajador2">
+  </table>
+</main>
+
+<script>
+  $(document).ready(function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var dni = urlParams.get('dni');
+
+    $.get("http://localhost:3000/trabajadores/" + dni, function (detalleData) {
+      var table = $("#detalleTrabajador");
+      var headerRow = $("<tr>");
+      headerRow.append($("<th>"));
+      headerRow.append($("<th>"));
+      table.append(headerRow);
+
+      Object.keys(detalleData[0]).forEach(function (campo) {
+        var row = $("<tr>");
+        row.append($("<td>").text(campo));
+        row.append($("<td>").text(detalleData[0][campo]));
+        table.append(row);
+      });
+    });
+
+    $.get("http://localhost:3000/trabajadores/ventas/" + dni, function (detalleData) {
+      var table = $("#detalleTrabajador2");
+      var headerRow = $("<tr>");
+      headerRow.append($("<th>"));
+      headerRow.append($("<th>"));
+      table.append(headerRow);
+
+      Object.keys(detalleData[0]).forEach(function (campo) {
+        var row = $("<tr>");
+        row.append($("<td>").text(campo));
+        row.append($("<td>").text(detalleData[0][campo]));
+        table.append(row);
+      });
+    });
+
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+</body>
+</html>

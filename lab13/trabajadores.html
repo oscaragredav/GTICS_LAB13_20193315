@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <title>BICICENTRO</title>
+  </head>
+  <body>
+    <header class="container-fluid">
+      <img width="33%" height="30%" src="logo.jpeg" class="me-3" alt="50 px" />
+      <h1 class="display-4">BICICENTRO</h1>
+    </header>
+
+    <main>
+        <a class="btn btn-primary mt-4" href="index.html">Regresar</a>
+        <hr>
+        <h3>Lista de trabajadores</h3>
+        <hr>
+        <table class="table table-sm" id="trabajadores">
+
+          </table>
+
+
+    </main>
+
+    <script>
+        $(document).ready(function () {
+            $.get("http://localhost:3000/trabajadores", function (data) {
+                var table = $("#trabajadores");
+                var headerRow = $("<tr>");
+                headerRow.append($("<th>").text("#"));
+                headerRow.append($("<th>").text("Nombre"));
+                headerRow.append($("<th>").text("Correo"));
+                headerRow.append($("<th>").text("Detalle"));
+                table.append(headerRow);
+
+                data.forEach(function (trabajador, index) {
+                    var row = $("<tr>");
+                    row.append($("<td>").text(index + 1));
+                    row.append($("<td>").text(trabajador.nombres + ' ' + trabajador.apellidos));
+                    row.append($("<td>").text(trabajador.correo));
+
+                    var detalleButton = $("<button>")
+                        .addClass("btn btn-info")
+                        .text("Detalle")
+                        .click(function () {
+                          window.location.href = "detalleTrabajador.html?dni=" + trabajador.dni;
+                        });
+                    row.append($("<td>").append(detalleButton));
+
+                    table.append(row);
+                });
+            });
+        });
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
